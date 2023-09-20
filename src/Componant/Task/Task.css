@@ -1,0 +1,33 @@
+.task-container{
+    height: 180px;
+    width: 350px;
+    border: 1px solid #ff3300 ;
+    padding: 10px;
+    margin: 0px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.2) ;
+}
+.task-city{
+    font-size: 22px;
+    margin: 5px;
+    font-family: cursive;
+}
+.task-education{
+    font-size: 22px;
+    margin: 5px;
+    font-family: cursive;
+}
+.task-age{
+    font-size: 22px;
+    margin: 5px;
+    font-family: cursive;
+}
+.task-name{
+    font-size: 25px;
+    margin: 0px;
+    margin: 5px;
+    font-weight: bold;
+    
+    
+}
