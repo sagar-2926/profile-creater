@@ -39,8 +39,10 @@
     display: block;
     flex-direction: column;
     border-radius: 5px;
-    font-size: 15px
-}
+    font-size: 15px;
+    margin-left: 10px;
+   
+}   
 .info-input:hover{
    
     border: 2px solid #1ac6ff;
@@ -49,20 +51,29 @@
 .create-inf{
     display: flex;
     flex-direction: column;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  
+    
 }
 .submit-btn{
     background-color:#66ffff ;
     border: none;
     border-radius: 15px;
-    width: 150px;
+    width: 130px;
     height: 45px;
     font-size: 18px;
     color: black;
     font-weight: bold;
     display: block;
-    margin-left: 55px;
+    margin-right: 10px;
     font-family:serif;
    
 }
 
+.info-button{
+    display:flex;
+    flex-direction: row;
+    
+}

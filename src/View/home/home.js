@@ -12,12 +12,12 @@ function Home() {
       Age: 23,
     }
   ])
-
+   const [id ,setId] = useState(0);
   const [Name, setName] = useState('');
   const [City, setCity] = useState('');
   const [Education, setEducation] = useState('');
   const [Age, setAge] = useState('');
-
+  const [isEdit , setIsEdit] = useState(false);
    
 
   useEffect(() => {
@@ -66,6 +66,54 @@ function Home() {
 
     saveListToLocalStorage(tempArray); 
   }
+
+   const setTaskEditable = (id) =>{
+        setIsEdit(true);
+        setId(id);
+     let currentEditTask ;
+
+     tasklist.forEach((task) =>{
+        if (task.id === id){
+            currentEditTask = task;
+        }
+     })
+    setName(currentEditTask.Name);
+    setAge(currentEditTask.Age);
+    setCity(currentEditTask.City);
+    setEducation(currentEditTask.Education);
+    
+        
+   }
+    
+   const updateTask = () =>{
+    let indexToUpdate;
+    tasklist.forEach((task,i) =>{
+        if (task.id === id){
+            indexToUpdate = i;
+        }
+    })
+       
+    const tempArray = tasklist;
+    tempArray[indexToUpdate] = {
+        id :id,
+        Name: Name,
+        City: City,
+        Education: Education,
+        Age: Age
+
+    }
+
+    setTasklist([...tempArray]);
+    saveListToLocalStorage(tempArray);
+      
+    setId(0);
+    setName('');
+    setCity('');
+    setEducation('');
+    setAge('');
+    setIsEdit(false);
+
+   }
  
   return (
     <div className="main-container">
@@ -86,6 +134,7 @@ function Home() {
                 Age={Age}
                 key={index}
                 removeTaskFromlist={removeTaskFromlist}
+               setTaskEditable ={setTaskEditable}
                 // obj={taskItom} 
                 /> 
             );
@@ -95,7 +144,10 @@ function Home() {
         </div>
 
         <div className="create-inf">
-          <h2>Add our information +</h2>
+          <h2>
+            {isEdit ?`Upadate our information ${id}` : 'Add our information +' }
+
+          </h2>
           <div className="form-container">
             <form>
               <input
@@ -137,9 +189,21 @@ function Home() {
                 placeholder="Enter your Age"
                 className="info-input"
               />
-              <button type="button" className="submit-btn" onClick={addTaskToList}>
-                Submit
+
+              <div className="info-button" >
+                {
+                isEdit ? 
+                <button type="button" className="submit-btn" onClick={updateTask}>
+                Upadate
               </button>
+              :
+              <button type="button" className="submit-btn" onClick={addTaskToList}>
+                 Submit
+              </button>
+                }
+
+              </div>
+
             </form>
           </div>
         </div>

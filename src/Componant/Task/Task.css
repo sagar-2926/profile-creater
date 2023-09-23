@@ -35,8 +35,13 @@
     
     
 }
-.task-delet{
+.task-icon{
     display: flex;
+    flex-direction: row;
     justify-content: end;
+    margin-left: 15px;
     cursor: pointer;
+}
+.task-edit{
+    margin-right: 15px;
 }
