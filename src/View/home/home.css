@@ -77,3 +77,11 @@
     flex-direction: row;
     
 }
+.home-container{
+    padding: 20px;
+    height: 420px;
+    overflow-y: scroll;
+}
+.home-container::-webkit-scrollbar{
+    width: 4px;
+}

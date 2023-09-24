@@ -1,5 +1,7 @@
 import "./home.css";
 import Task from '../../Componant/Task/Task';
+import { saveListToLocalStorage } from "../../util/localStorage";
+import showToast from 'crunchy-toast';
 import React, { useEffect, useState } from "react";
 
 function Home() {
@@ -27,11 +29,52 @@ function Home() {
     }
   }, []);
 
-  const saveListToLocalStorage = (tasks) => {
-    localStorage.setItem('tasklist', JSON.stringify(tasks));
-  };
+
+  const clearInputfield = () => {
+    setName('');
+    setCity('');
+    setEducation('');
+    setAge('');
+  }
+    const findTaskIndexById = (taskid) =>{
+        let index ;
+      tasklist.forEach ((task,i) =>{
+    if(task.id === taskid){
+        index = i
+    }
+   })
+     return index;
+    }
+
+   const chackRequiredField =() => {
+    if (!Name){
+        showToast ("Name is required ",'warning',3000);
+        return false;
+      }
+
+      if (!City){
+        showToast (" City required",'warning',3000);
+        return false;
+      }
+
+      if (!Education){
+        showToast (" Education is required",'warning',3000);
+        return false;
+      }
+
+      if (!Age){
+        showToast ("Age is required",'warning',3000);
+        return false;
+      }
+     return true;
+
+   }
 
   const addTaskToList = () => {
+      
+   if (chackRequiredField()=== false){
+    return;
+   }
     const randomId = Math.floor(Math.random() * 100);
     const obj = {
       id: randomId,
@@ -45,55 +88,40 @@ function Home() {
     const newTaskList = [...tasklist, obj];
     setTasklist(newTaskList);
 
-    setName('');
-    setCity('');
-    setEducation('');
-    setAge('');
-
+    clearInputfield()
     saveListToLocalStorage(newTaskList);
+    showToast('Sussesfully Added', 'success', 3000);
+
   }
   const removeTaskFromlist = (id) =>{
-   let index ;
-   tasklist.forEach ((task,i) =>{
-    if(task.id === id){
-        index = i
-    }
-   })
-
+    const index = findTaskIndexById(id); 
     const tempArray = tasklist;
     tempArray.splice(index, 1);
     setTasklist([...tempArray] );
 
     saveListToLocalStorage(tempArray); 
+    showToast('Delete Sussesfully', 'alert', 3000);
   }
 
    const setTaskEditable = (id) =>{
         setIsEdit(true);
         setId(id);
-     let currentEditTask ;
 
-     tasklist.forEach((task) =>{
-        if (task.id === id){
-            currentEditTask = task;
-        }
-     })
+      const index = findTaskIndexById(id);
+      const currentEditTask = tasklist[index];
+
     setName(currentEditTask.Name);
     setAge(currentEditTask.Age);
     setCity(currentEditTask.City);
-    setEducation(currentEditTask.Education);
-    
-        
+    setEducation(currentEditTask.Education);     
    }
     
    const updateTask = () =>{
-    let indexToUpdate;
-    tasklist.forEach((task,i) =>{
-        if (task.id === id){
-            indexToUpdate = i;
-        }
-    })
-       
-    const tempArray = tasklist;
+    if (chackRequiredField()=== false){
+        return;
+       }
+      const indexToUpdate = findTaskIndexById(id)
+;    const tempArray = tasklist;
     tempArray[indexToUpdate] = {
         id :id,
         Name: Name,
@@ -107,11 +135,9 @@ function Home() {
     saveListToLocalStorage(tempArray);
       
     setId(0);
-    setName('');
-    setCity('');
-    setEducation('');
-    setAge('');
+    clearInputfield();
     setIsEdit(false);
+    showToast('Update Sussesfully', 'info', 3000);
 
    }
  
@@ -122,6 +148,7 @@ function Home() {
       <div className="container">
         <div className="Imploy-cards">
           <h2>Show list ≡</h2>
+          <div className="home-container">
           {
             tasklist.map((taskItom, index)=>{
             const { id, Name, City, Education, Age } = taskItom;
@@ -140,6 +167,7 @@ function Home() {
             );
           })
           }
+          </div>
 
         </div>
 
